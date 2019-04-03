@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!--shiro 过滤器工厂bean,相当于间接加载了9个内置过滤器 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+	
+		<!--添加各种过滤器 -->
+		<property name="filters">
+			<map>
+				<entry key="perms"  value-ref="erpAuthorizationFilter" ></entry>
+			</map>
+		</property>
+		
+		<!--安全管理器：核心组件 -->
+		<property name="securityManager" ref="securityManager" />
+		<!--认证相关配置，用户 认证后置才能访问别的资源，没认证就跳转到这 -->
+		<property name="loginUrl" value="/login.html" />
+		<!-- 授权相关 配置，访问为授权的资源跳转到这 -->
+		<property name="unauthorizedUrl" value="/error.html" />
+		
+
+		<!--过滤器链定义：用来配置页面的访问规则 -->
+		<property name="filterChainDefinitions">
+			<value>
+				/error.html = anon
+				<!-- 登录退出方法不需要认证 -->
+				/login_*.action = anon
+				/login_* = anon
+
+				<!--授权 html -->
+				/*_list=perms[]
+				/store_mylist=perms[]
+				
+				/goodstype.html=perms["商品类型"]
+				/goods.html=perms["商品"]
+
+				/supplier.html=perms["供应商管理","客户管理"]
+
+				/dep.html=perms["部门"]
+				/emp.html=perms["员工"]
+
+				/orders.html=perms["我的采购订单","采购订单录入","采购订单审核","采购订单查询","采购订单确认","采购订单入库","销售订单查询","销售订单录入","销售订单出库","采购订单退货"]
+				/returnorders.html=perms["采购订单退货","采购退货审核","采购退货出库","采购退货订单管理"]
+				
+				/store.html=perms["仓库"]
+				/storealert.html=perms["库存预警"]
+				/storedetail.html=perms["仓库库存管理"]
+
+				/pwd.html=perms["密码重置"]
+				/role.html=perms["角色管理"]
+				/emproleset.html=perms["用户角色分配"]
+				/rolemenuset.html=perms["角色权限管理"]
+
+				/report_order.html=perms["销售统计报表"]
+				/report_trend.html=perms["销售趋势报表"]
+
+				<!--授权 action -->
+				/goodstype_*=perms["商品类型"]
+				/goods_*=perms["商品"]
+
+				/supplier_*=perms["供应商管理","客户管理"]
+
+				/dep_*=perms["部门"]
+				/emp_*=perms["员工"]
+
+				/orders_*=perms["我的采购订单","采购订单录入","采购订单审核","采购订单查询","采购订单确认","采购订单入库","销售订单查询","销售订单录入","销售订单出库"]
+				/returnorders_*=perms["采购订单退货","采购退货审核","采购退货出库","采购退货订单管理"]
+				
+				/store_*=perms["仓库"]
+				/storealert_*=perms["库存预警"]
+				/storedetail_*=perms["仓库库存管理"]
+
+				/pwd_*=perms["密码重置"]
+				/role_*=perms["角色管理"]
+				/emproleset_*=perms["用户角色分配"]
+				/rolemenuset_*=perms["角色权限管理"]
+
+				/report_order_*=perms["销售统计报表"]
+				/report_trend_*=perms["销售趋势报表"]
+
+				<!--认证 -->
+				/*.html = authc
+				/*.action =authc
+				/*=authc
+			</value>
+		</property>
+	</bean>
+	<!--安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="erpRealm"></property>
+	</bean>
+	<!--配置realm -->
+	<bean name="erpRealm" class="com.itcast.erp.realm.ErpRealm">
+		<property name="empBiz" ref="empBiz"></property>
+		<property name="menuBiz" ref="menuBiz"></property>
+	</bean>
+	<!--自定义的过滤器  -->
+	<bean name="erpAuthorizationFilter" class="com.itcast.erp.filter.ErpAuthorizationFilter">
+	</bean>
+	
+	<!-- 启动shiro注解 -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor" >
+		<!--depends-on   依赖lifecycleBeanPostProcessor加载完毕 -->
+		<!-- 默认使用JDK代理 ，如被代理类没有实现接口，必须使用下列配置开启 cglib代理  -->
+		<property name="proxyTargetClass" value="true" />
+	</bean>	
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+	
+	<!-- 对安全管理器 增强代码 ， spring 后处理器 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/> 
+
+</beans>

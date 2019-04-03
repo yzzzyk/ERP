@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.itcast.erp.entity.Orders" table="orders">
+		<id name="uuid">
+
+			<generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+				<param name="sequence_name">orders_seq</param>
+			</generator>
+		</id>
+
+		<property name="createtime" />
+		<property name="checktime" />
+		<property name="starttime" />
+		<property name="endtime" />
+		<property name="type" />
+		<property name="creater" />
+		<property name="checker" />
+		<property name="starter" />
+		<property name="ender" />
+		<property name="supplieruuid" />
+		<property name="totalmoney" />
+		<property name="state" />
+		<property name="waybillsn" />
+
+		<!-- 订单明细，一对多 -->
+		<!-- inverse 是否放弃维护主建  默认false 维护   true  不维护  -->
+		<bag name="orderdetail" cascade="save-update" inverse="true">
+			<key column="ordersuuid" ></key>
+			<one-to-many class="com.itcast.erp.entity.Orderdetail"/>
+		</bag>
+
+
+	</class>
+</hibernate-mapping>

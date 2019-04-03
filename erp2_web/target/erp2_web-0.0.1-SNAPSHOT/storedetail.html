@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>仓库库存管理</title>
+<link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/table.css">
+<script type="text/javascript" src="js/storedetail.js"></script>
+<script type="text/javascript" src="ui/date.js"></script>
+
+</head>
+<body>
+<div class="easyui-panel">
+<form id="searchForm">
+	仓库：<input name="t1.storeuuid" class="easyui-combobox" data-options="
+	url:'store_list',textField:'name',valueField:'uuid'
+	">
+	商品：<input name="t1.goodsuuid" class="easyui-combobox" data-options="
+	url:'goods_list',textField:'name',valueField:'uuid'
+	">
+	数量：<input name="t1.num" class="easyui-numberbox">
+
+	<button type="button" id="btnSearch">查询</button>
+</form>
+<!-- 仓库商品信息数据表格 -->
+<table id="grid"></table>
+
+
+<div id="storeOperDlg">
+<form id="storeOperForm">
+	<table class="hovertable">
+		<tr>
+		<td width="25%"  class="bg">商品名称</td>
+		<td id="goodsname" width="25%" class="noBorderBottom"style="color: red"></td>
+		
+		<td width="25%" class="bg">仓库</td>
+		<td id="storename" class="noBorderBottom" style="color: red"></td>
+		</tr>
+	</table>
+	
+	
+	<table id="storeOpergrid"></table>
+	
+</form>
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+<!-- <div id="editWindow" class="easyui-window" title="仓库库存编辑" 
+	style="width: 300px;height: 200px" data-options="closed:true">
+	<form id="editForm">
+	<input name="t.uuid" type="hidden"> 
+
+		<table>
+			<tr>
+				<td>仓库编号</td><td><input name="t.storeuuid"> </td>
+			</tr>
+			<tr>
+				<td>商品编号</td><td><input name="t.goodsuuid"> </td>
+			</tr>
+			<tr>
+				<td>数量</td><td><input name="t.num"> </td>
+			</tr>
+
+		</table>	
+		<button id="btnSave" type="button">保存</button>
+	</form>
+</div> -->
+
+
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>采购订单管理</title>
+<link rel="stylesheet" type="text/css"
+	href="ui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+<script type="text/javascript" src="ui/jquery.min.js"></script>
+<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="ui/jquery.serializejson.min.js"></script>
+
+<!-- 表样式 -->
+<link rel="stylesheet" type="text/css" href="css/table.css">
+<!--日期格式化 -->
+<script type="text/javascript" src="ui/date.js"></script>
+
+<!--下载 -->
+<script type="text/javascript" src="ui/download.js"></script>
+<!-- 获取静态传参 -->
+<script type="text/javascript" src="ui/request.js"></script>
+
+
+<script type="text/javascript" src="js/orders.js"></script>
+<script type="text/javascript" src="js/orders_add.js"></script>
+
+</head>
+<body>
+
+	<table id="grid"></table>
+
+
+	<!-- 訂單詳情窗口 -->
+	<div id="ordersDlg" class="easyui-dialog" style="padding: 2px"
+		title="订单详情"
+		data-options="modal:true,width: 700,    
+    height: 320, closed:true">
+		<table class="hovertable">
+			<tr>
+				<td class="bg">流水号</td>
+				<td id='uuid'></td>
+				<td class="bg">供应商</td>
+				<td colspan="3" id='supplieruuidName'></td>
+
+				<td class="bg">状态</td>
+				<td id='state' style="color: red"></td>
+			</tr>
+			<tr>
+				<td class="bg" width="10%">下单人</td>
+				<td width="15%" id='createrName'></td>
+				<td class="bg" width="10%">审核人</td>
+				<td width="15%" id='checkerName'></td>
+				<td class="bg" width="10%">采购员</td>
+				<td width="15%" id='starterName'></td>
+				<td class="bg" width="10%">库管员</td>
+				<td width="15%" id='enderName'></td>
+			</tr>
+			<tr>
+				<!-- table.css  class="noBorderBottom"  取消下边框-->
+				<td class="bg noBorderBottom">下单日期</td>
+				<td class="noBorderBottom" id='createtime'></td>
+				<td class="bg">审核日期</td>
+				<td id='checktime'></td>
+				<td class="bg">确认日期</td>
+				<td id='starttime'></td>
+				<td id="outindate" class="bg">入库日期</td>
+				<td id='endtime'></td>
+			</tr>
+			<tr>
+				<td class="bg noBorderBottom">运单号</td>
+				<td class="noBorderBottom" id='waybillsn'></td>
+			</tr>
+		</table>
+
+		<table id="itemgrid"></table>
+	</div>
+
+	<div id="itemDlg" style="">
+		<form id="itemForm">
+			<input name="id" id="itemuuid" type="hidden">
+			<table class="hovertable">
+				<tr>
+					<td class="bg" width="30%">商品编号</td>
+					<td width="70%" id="goodsuuid"></td>
+				</tr>
+
+				<tr>
+					<td class="bg">商品名称</td>
+					<td id="goodsname"></td>
+				</tr>
+
+				<tr>
+					<td class="bg">数量</td>
+					<td id="num"></td>
+				</tr>
+
+				<tr>
+					<td class="bg">仓库</td>
+					<td><input name="storeuuid" class="easyui-combobox"
+						data-options="
+					url:'store_mylist',textField:'name',valueField:'uuid'
+					">
+					</td>
+				</tr>
+
+			</table>
+
+		</form>
+	</div>
+
+	<!-- 增加 创建进货订单窗口 -->
+	<div id="addOrdersDlg" style="padding: 2px">
+		<form id="orderForm">
+			<span id="ordersupplier"></span> <input id="supplier"
+				name="t.supplieruuid">
+			<div style="height: 2px"></div>
+		</form>
+
+		<table id="ordersgrid"></table>
+	</div>
+
+	<!--物流详情显示-->
+	<div id="waybillDlg"  class="easyui-dialog" style="padding: 2px" data-options="
+		 title: '运单详情',width: 350, height: 450, closed: true,modal: true   
+	">
+		<div id="waybillGrid"></div>
+	</div>
+</body>
+</html>
